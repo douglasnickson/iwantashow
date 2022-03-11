@@ -1,19 +1,19 @@
-import { IMovie } from '../model/IMovie';
+import { IShow } from '../model/IShow';
 
-export function parseMovies(results: IMovie[]): IMovie[] {
-  return results.map((movie: IMovie) => ({
-    id: movie.id,
-    poster_path: movie.poster_path,
-    original_title: movie.original_title,
-    overview: movie.overview,
-    release_date: movie.release_date,
-    title: movie.title,
-    vote_average: movie.vote_average,
-    genre_ids: [...movie.genre_ids],
+export function parseShows(results: IShow[]): IShow[] {
+  return results.map((show: IShow) => ({
+    id: show.id,
+    backdrop_path: show.backdrop_path,
+    original_name: show.original_name,
+    overview: show.overview,
+    first_air_date: show.first_air_date,
+    name: show.name,
+    vote_average: show.vote_average,
+    genre_ids: [...show.genre_ids],
   }));
 }
 
-export function getRandomItems(arr: IMovie[], n: number): IMovie[] {
+export function getRandomItems(arr: IShow[], n: number): IShow[] {
   const result = new Array(n);
   let len = arr.length;
   const taken = new Array(len);

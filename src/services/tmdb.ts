@@ -2,46 +2,44 @@ import { TMDB_API_KEY } from '@env';
 
 import api from './api';
 
-import { parseMovies } from '../utils/Utils';
+import { parseShows } from '../utils/Utils';
 
-import { IMovie } from '@model/IMovie';
-import { IMovieProvider } from '@model/IMovieProvider';
+import { IShow } from '@model/IShow';
+import { IShowProvider } from '@model/IShowProvider';
 import { IGenre } from '@model/IGenre';
 import { ICast } from '@model/ICast';
 
-const getMovies = async (endpoint: string, page: number): Promise<any> => {
+const getShows = async (endpoint: string, page: number): Promise<any> => {
   const response = await api.get(
-    `/${endpoint}?api_key=${TMDB_API_KEY}&language=pt-BR&region=BR&page=${page}`
+    `${endpoint}?api_key=${TMDB_API_KEY}&language=pt-BR&region=BR&page=${page}`
   );
 
   return response;
 };
 
-export const getTopRatedMovies = async (page: number): Promise<IMovie[]> => {
-  const response = await getMovies('/movie/top_rated', page);
+export const getTopRatedShows = async (page: number): Promise<IShow[]> => {
+  const response = await getShows('/tv/top_rated', page);
   const { results } = response.data;
-  return parseMovies(results);
+  return parseShows(results);
 };
 
-export const getPopularMovies = async (page: number): Promise<IMovie[]> => {
-  const response = await getMovies('/movie/popular', page);
+export const getPopularShows = async (page: number): Promise<IShow[]> => {
+  const response = await getShows('/tv/popular', page);
   const { results } = response.data;
-  return parseMovies(results);
+  return parseShows(results);
 };
 
-export const getTrendingWeekMovies = async (
-  page: number
-): Promise<IMovie[]> => {
-  const response = await getMovies('/trending/movie/week', page);
+export const getTrendingWeekShows = async (page: number): Promise<IShow[]> => {
+  const response = await getShows('/trending/tv/week', page);
   const { results } = response.data;
-  return parseMovies(results);
+  return parseShows(results);
 };
 
-export const getMovieProvider = async (
+export const getShowProvider = async (
   movieId: number
-): Promise<IMovieProvider[]> => {
+): Promise<IShowProvider[]> => {
   const response = await api.get(
-    `/movie/${movieId}/watch/providers?api_key=${TMDB_API_KEY}&language=pt-BR&region=BR`
+    `/tv/${movieId}/watch/providers?api_key=${TMDB_API_KEY}&language=pt-BR&region=BR`
   );
 
   const { results } = response.data;
@@ -51,7 +49,7 @@ export const getMovieProvider = async (
     return [];
   }
 
-  return BR.flatrate.map((provider: IMovieProvider) => ({
+  return BR.flatrate.map((provider: IShowProvider) => ({
     provider_id: provider.provider_id,
     provider_name: provider.provider_name,
     logo_path: provider.logo_path,
@@ -60,7 +58,7 @@ export const getMovieProvider = async (
 
 export const getGenres = async (): Promise<IGenre[]> => {
   const response = await api.get(
-    `/genre/movie/list?api_key=${TMDB_API_KEY}&language=pt-BR&region=BR`
+    `/genre/tv/list?api_key=${TMDB_API_KEY}&language=pt-BR&region=BR`
   );
 
   const { genres } = response.data;
@@ -72,7 +70,7 @@ export const getGenres = async (): Promise<IGenre[]> => {
 
 export const getCast = async (movieId: number): Promise<ICast[]> => {
   const response = await api.get(
-    `/movie/${movieId}/credits?api_key=${TMDB_API_KEY}&language=pt-BR&region=BR`
+    `/tv/${movieId}/credits?api_key=${TMDB_API_KEY}&language=pt-BR&region=BR`
   );
 
   const { cast } = response.data;
