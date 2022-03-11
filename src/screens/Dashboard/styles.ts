@@ -15,7 +15,7 @@ export const Message = styled.Text`
 `;
 
 export const ComboBoxContainer = styled.View`
-  border: 1px solid #169ddb;
+  border: 1px solid #fa3e82;
   border-radius: 8px;
   height: 46px;
   align-items: center;

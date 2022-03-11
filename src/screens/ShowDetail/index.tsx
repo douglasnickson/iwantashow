@@ -74,7 +74,7 @@ const ShowDetail = ({ route }: Props) => {
         <Container>
           <ShowImage
             source={{
-              uri: `https://image.tmdb.org/t/p/w300${show.backdrop_path}`,
+              uri: `https://image.tmdb.org/t/p/w400${show.backdrop_path}`,
             }}
           />
           <ShowTitle>{show.name}</ShowTitle>

@@ -8,5 +8,5 @@ export const Container = styled.View`
 
 export const Message = styled.Text`
   font-size: 14px;
-  color: #169ddb;
+  color: #fa3e82;
 `;

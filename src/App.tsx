@@ -14,7 +14,7 @@ import Routes from './routes';
 const App: React.FC = () => {
   return (
     <NavigationContainer>
-      <StatusBar backgroundColor="#169ddb" barStyle="light-content" />
+      <StatusBar backgroundColor="#FA3E82" barStyle="light-content" />
       <Routes />
     </NavigationContainer>
   );
