@@ -46,6 +46,9 @@
       "@screens/*": [
         "src/screens/*"
       ],
+      "@model/*": [
+        "src/model/*"
+      ],
       "@services/*": [
         "src/services/*"
       ],
