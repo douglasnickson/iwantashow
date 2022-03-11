@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-// import {
-//   BannerAd,
-//   TestIds,
-//   BannerAdSize,
-//   useInterstitialAd,
-// } from '@react-native-admob/admob';
+import {
+  BannerAd,
+  TestIds,
+  BannerAdSize,
+  useInterstitialAd,
+} from '@react-native-admob/admob';
 
 import { Container, Message, ComboBoxContainer, ComboBox } from './styles';
 
@@ -29,29 +29,29 @@ type Props = {
   navigation: any;
 };
 
-// const adUnitId = __DEV__
-//   ? TestIds.BANNER
-//   : 'ca-app-pub-1209664770627704/8919504132';
+const adUnitId = __DEV__
+  ? TestIds.BANNER
+  : 'ca-app-pub-1209664770627704/9331842760';
 
-// const adIntersticialUnitId = __DEV__
-//   ? TestIds.INTERSTITIAL
-//   : 'ca-app-pub-1209664770627704/3197894852';
+const adIntersticialUnitId = __DEV__
+  ? TestIds.INTERSTITIAL
+  : 'ca-app-pub-1209664770627704/4929563326';
 
-let show: IShow;
+let tvShow: IShow;
 let showProvider: IShowProvider[] = [];
 
 const Dashboard = ({ navigation }: Props) => {
   const [streaming, setStreaming] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // const { adLoaded, adDismissed, show } = useInterstitialAd(
-  //   adIntersticialUnitId,
-  //   {
-  //     requestOptions: {
-  //       requestNonPersonalizedAdsOnly: true,
-  //     },
-  //   }
-  // );
+  const { adLoaded, adDismissed, show } = useInterstitialAd(
+    adIntersticialUnitId,
+    {
+      requestOptions: {
+        requestNonPersonalizedAdsOnly: true,
+      },
+    }
+  );
 
   const handleStreaming = (value: string) => {
     setStreaming(value);
@@ -90,7 +90,7 @@ const Dashboard = ({ navigation }: Props) => {
           if (showProviders.length > 0) {
             console.log(randomShow[0]);
 
-            show = randomShow[0];
+            tvShow = randomShow[0];
             showProvider.push(...providersFound);
             break;
           }
@@ -98,7 +98,7 @@ const Dashboard = ({ navigation }: Props) => {
         }
       }
 
-      if (!show) {
+      if (!tvShow) {
         Alert.alert('Ocorreu um erro', 'Nenhum Tv Show encontrado!');
         setLoading(false);
         return;
@@ -107,22 +107,21 @@ const Dashboard = ({ navigation }: Props) => {
       setLoading(false);
       setStreaming('');
 
-      // if (adLoaded) {
-      //   show();
-      // } else {
-      //   navigation.navigate('MovieDetail', { movie, movieProvider });
-      // }
-      navigation.navigate('ShowDetail', { show, showProvider });
+      if (adLoaded) {
+        show();
+      } else {
+        navigation.navigate('ShowDetail', { tvShow, showProvider });
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
-  // useEffect(() => {
-  //   if (adDismissed) {
-  //     navigation.navigate('MovieDetail', { movie, movieProvider });
-  //   }
-  // }, [adDismissed, navigation]);
+  useEffect(() => {
+    if (adDismissed) {
+      navigation.navigate('ShowDetail', { tvShow, showProvider });
+    }
+  }, [adDismissed, navigation]);
 
   return (
     <Container>
@@ -154,14 +153,14 @@ const Dashboard = ({ navigation }: Props) => {
         PESQUISAR
       </Button>
       {loading && <Loading title={'Buscando...'} />}
-      {/* <BannerAd
+      <BannerAd
         size={BannerAdSize.BANNER}
         unitId={adUnitId}
         requestOptions={{
           requestNonPersonalizedAdsOnly: true,
         }}
         onAdFailedToLoad={(error) => console.error(error)}
-      /> */}
+      />
     </Container>
   );
 };

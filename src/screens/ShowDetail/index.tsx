@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ScrollView } from 'react-native';
 import { parse, format } from 'date-fns';
 
-// import { BannerAd, TestIds, BannerAdSize } from '@react-native-admob/admob';
+import { BannerAd, TestIds, BannerAdSize } from '@react-native-admob/admob';
 
 import {
   Container,
@@ -37,12 +37,12 @@ type Props = {
 };
 
 type IShowWithProvider = {
-  show: IShow;
+  tvShow: IShow;
   showProvider: IShowProvider[];
 };
 
 const ShowDetail = ({ route }: Props) => {
-  const { show, showProvider }: IShowWithProvider = route.params;
+  const { tvShow, showProvider }: IShowWithProvider = route.params;
   const [genres, setGenres] = useState<IGenre[]>([]);
   const [cast, setCast] = useState<ICast[]>([]);
 
@@ -50,23 +50,23 @@ const ShowDetail = ({ route }: Props) => {
     const handleGenres = async () => {
       const genresFound = await getGenres();
       const genresFiltered = genresFound.filter((genre) =>
-        show.genre_ids.includes(genre.id)
+        tvShow.genre_ids.includes(genre.id)
       );
       setGenres(genresFiltered);
     };
 
     const handleCast = async () => {
-      const castFound = await getCast(show.id);
+      const castFound = await getCast(tvShow.id);
       setCast(castFound);
     };
 
     handleGenres();
     handleCast();
-  }, [show]);
+  }, [tvShow]);
 
-  // const adUnitId = __DEV__
-  //   ? TestIds.BANNER
-  //   : 'ca-app-pub-1209664770627704/1842728382';
+  const adUnitId = __DEV__
+    ? TestIds.BANNER
+    : 'ca-app-pub-1209664770627704/3570936542';
 
   return (
     <>
@@ -74,18 +74,18 @@ const ShowDetail = ({ route }: Props) => {
         <Container>
           <ShowImage
             source={{
-              uri: `https://image.tmdb.org/t/p/w400${show.backdrop_path}`,
+              uri: `https://image.tmdb.org/t/p/w400${tvShow.backdrop_path}`,
             }}
           />
-          <ShowTitle>{show.name}</ShowTitle>
+          <ShowTitle>{tvShow.name}</ShowTitle>
           <ShowOriginalTitle>
             <TextBold>Título Original: </TextBold>
-            {show.original_name}
+            {tvShow.original_name}
           </ShowOriginalTitle>
           <ShowReleaseDate>
             <TextBold>Lançamento: </TextBold>
             {format(
-              parse(show.first_air_date, 'yyyy-MM-dd', new Date()),
+              parse(tvShow.first_air_date, 'yyyy-MM-dd', new Date()),
               'dd/MM/yyyy'
             )}
           </ShowReleaseDate>
@@ -98,7 +98,7 @@ const ShowDetail = ({ route }: Props) => {
                 </ShowGenres>
               ))}
           </ShowGenres>
-          <ShowDescription>{show.overview}</ShowDescription>
+          <ShowDescription>{tvShow.overview}</ShowDescription>
           <ShowCastContainer>
             <ScrollView horizontal={true}>
               {cast &&
@@ -125,7 +125,7 @@ const ShowDetail = ({ route }: Props) => {
                 ))}
             </ScrollView>
           </ShowCastContainer>
-          <ShowRating>{`Score: ${show.vote_average}/10`}</ShowRating>
+          <ShowRating>{`Score: ${tvShow.vote_average}/10`}</ShowRating>
           <ShowStreamingContainer>
             {showProvider &&
               showProvider.map((provider, index) => (
@@ -147,14 +147,14 @@ const ShowDetail = ({ route }: Props) => {
           </ShowStreamingContainer>
         </Container>
       </ScrollView>
-      {/* <BannerAd
+      <BannerAd
         size={BannerAdSize.BANNER}
         unitId={adUnitId}
         requestOptions={{
           requestNonPersonalizedAdsOnly: true,
         }}
         onAdFailedToLoad={(error) => console.error(error)}
-      /> */}
+      />
     </>
   );
 };
